@@ -20,9 +20,9 @@
     <a class="logo" href="/"><span class="tick" aria-hidden="true">✓</span>Kursplattform-Check</a>
     <nav class="nav" aria-label="Hauptnavigation">
       <a href="/online-kurs-plattformen-vergleich">Vergleich</a>
+      <a href="/kostenrechner">Kostenrechner</a>
       <a href="/systeme-io">Systeme.io</a>
       <a href="/skool-preise">Skool</a>
-      <a href="/so-pruefen-wir">So prüfen wir</a>
     </nav>
   </header>
   <main>
@@ -32,8 +32,8 @@
         <h1>Die passende Plattform für Ihre Online-Kurse.</h1>
         <p class="lede">Unabhängige Vergleiche für Trainer, Coaches und Berater: Preise, Grenzen der Gratis-Pläne, Gebühren und Datenschutz von Systeme.io, Skool und Kajabi. Jede Angabe mit Quelle und Prüfdatum.</p>
         <div class="actions">
-          <a class="btn" href="/online-kurs-plattformen-vergleich">Zum Vergleich</a>
-          <a class="btn ghost" href="/systeme-io-kostenlos">Kostenlos starten: was geht?</a>
+          <a class="btn" href="#finder">Passende Plattform finden <span aria-hidden="true">→</span></a>
+          <a class="btn ghost" href="/kostenrechner">Kosten ausrechnen</a>
         </div>
         <ul class="trustline"><li>Angaben direkt vom Anbieter</li><li>Prüfdatum bei jedem Fakt</li><li>Für wen es nicht passt</li></ul>
       </div>
@@ -44,10 +44,48 @@
       </div>
     </section>
 
+    <section class="wide" id="finder" aria-labelledby="fi-h">
+      <div class="section-head"><h2 id="fi-h">Plattform-Finder</h2><p class="small">Drei Fragen, rund 30 Sekunden.</p></div>
+      <form class="finder" id="fi" onsubmit="return false">
+        <fieldset><legend>1. Was steht bei Ihnen im Mittelpunkt?</legend><div class="opts">
+          <label><input type="radio" name="f" value="kurs"><span>Kurs verkaufen, mit Verkaufsseite und E-Mails</span></label>
+          <label><input type="radio" name="f" value="com"><span>Community und Live-Calls</span></label>
+          <label><input type="radio" name="f" value="app"><span>Komplettpaket mit eigener App</span></label></div></fieldset>
+        <fieldset><legend>2. Wie viel möchten Sie am Anfang im Monat ausgeben?</legend><div class="opts">
+          <label><input type="radio" name="b" value="0"><span>Möglichst nichts</span></label>
+          <label><input type="radio" name="b" value="100"><span>Bis 100 $</span></label>
+          <label><input type="radio" name="b" value="max"><span>Mehr als 140 $ ist okay</span></label></div></fieldset>
+        <fieldset><legend>3. Wie viele Kontakte hat Ihre E-Mail-Liste?</legend><div class="opts">
+          <label><input type="radio" name="k" value="s"><span>Unter 2.000</span></label>
+          <label><input type="radio" name="k" value="m"><span>2.000 bis 10.000</span></label>
+          <label><input type="radio" name="k" value="l"><span>Mehr als 10.000</span></label></div></fieldset>
+        <div class="result" id="fr" aria-live="polite"><p>Beantworten Sie die drei Fragen, dann sehen Sie hier Ihre Empfehlung.</p></div>
+      </form>
+      <script>
+      (function(){
+        var F=document.getElementById('fi'),R=document.getElementById('fr');
+        var N={systeme:['0 $','ohne Kreditkarte','keine Laufzeit'],skool:['Gratis-Test','monatlich kündbar'],kajabi:['14 Tage gratis','30 Tage Geld zurück']};
+        var P={systeme:'/systeme-io',skool:'/skool-preise',kajabi:'/systeme-io-vs-kajabi'};
+        function show(k,name,why,label){
+          R.innerHTML='<p class="eyebrow">Ihre Empfehlung</p><h3>'+name+'</h3><p>'+why+'</p><div class="cta"><div class="actions"><a class="btn" href="/go/'+k+'" rel="sponsored nofollow">'+label+' <span aria-hidden="true">→</span></a><span class="aff">Werbelink</span></div><ul class="assure">'+N[k].map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></div><p class="small"><a href="'+P[k]+'">Details und Grenzen ansehen</a> · <a href="/kostenrechner">Kosten für Ihren Fall ausrechnen</a></p>';
+        }
+        F.addEventListener('change',function(){
+          var f=(F.querySelector('[name=f]:checked')||{}).value,b=(F.querySelector('[name=b]:checked')||{}).value,k=(F.querySelector('[name=k]:checked')||{}).value;
+          if(!f||!b||!k){return}
+          var plan=k==='s'?'Der Gratis-Plan reicht für bis zu 2.000 Kontakte.':(k==='m'?'Für Ihre Liste passt Startup (17 $, bis 5.000 Kontakte) oder Webinar (47 $, bis 10.000 Kontakte).':'Für Ihre Liste passt Unlimited (97 $, unbegrenzte Kontakte).');
+          if(f==='app'&&b==='max'){show('kajabi','Kajabi','Eine eigene App im App Store gibt es bei Kajabi im Pro-Plan für 399 $ im Monat bei Jahreszahlung. Basic ab 143 $ enthält schon Kurse, Website, E-Mails und Community.','Kajabi 14 Tage testen');return}
+          if(f==='com'&&b!=='0'){show('skool','Skool','Skool ist ganz auf Community und Live-Calls ausgelegt. Bei wenig Umsatz ist Hobby für 9 $ günstiger, ab rund 1.270 $ Umsatz im Monat lohnt sich Pro für 99 $.','Skool kostenlos testen');return}
+          var why=f==='com'?'Der Gratis-Plan von Systeme.io enthält bereits eine Community und einen Kurs. So starten Sie ohne Kosten und wechseln erst, wenn es sich lohnt. ':(f==='app'?'Eine eigene App gibt es bei Kajabi erst ab 399 $ im Monat. Für Ihr Budget ist Systeme.io die bessere Wahl. ':'Kurs, Verkaufsseite und E-Mail-Marketing laufen in einem Werkzeug, ohne Transaktionsgebühr. ');
+          show('systeme','Systeme.io',why+plan,'Systeme.io kostenlos starten');
+        });
+      })();
+      </script>
+    </section>
+
     <section class="wide" aria-labelledby="p-h">
       <div class="section-head"><h2 id="p-h">Plattformen im Check</h2><p class="small">Preise laut Anbieter in US-Dollar, Euro gerundet.</p></div>
       <div class="grid3">
-        <a class="prog" href="/systeme-io"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h18l-7 8v6l-4 2v-8z"/></svg></span><h3>Systeme.io</h3><span class="meta"><span class="chip open">Gratis-Plan</span><span>ab 0 $, bezahlt ab 17 $</span></span></a>
+        <a class="prog" href="/systeme-io"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h18l-7 8v6l-4 2v-8z"/></svg></span><h3>Systeme.io</h3><span class="meta"><span class="chip open">Empfehlung für Einsteiger</span><span>ab 0 $, bezahlt ab 17 $</span></span></a>
         <a class="prog" href="/skool-preise"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M14.5 14.2c3 .2 5.5 2.6 5.5 5.8"/></svg></span><h3>Skool</h3><span class="meta"><span class="chip open">Gratis-Test</span><span>9 $ oder 99 $ pro Monat</span></span></a>
         <a class="prog" href="/systeme-io-vs-kajabi"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M10 8.5v5l4.5-2.5z"/><path d="M8 21h8"/></svg></span><h3>Kajabi</h3><span class="meta"><span class="chip open">14 Tage gratis</span><span>ab 143 $ pro Monat</span></span></a>
       </div>
@@ -57,11 +95,11 @@
       <h2 id="g-h">Ratgeber</h2>
       <div class="linklist">
         <a href="/online-kurs-plattformen-vergleich"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 21h10M5 7h14"/><path d="M5 7l-3 7a3.5 3.5 0 0 0 6 0zM19 7l-3 7a3.5 3.5 0 0 0 6 0z"/></svg></span><span><b>Online-Kurs-Plattformen im Vergleich</b><span class="sub">Systeme.io, Skool und Kajabi nebeneinander</span></span></a>
+        <a href="/kostenrechner"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></span><span><b>Kostenrechner</b><span class="sub">Was Sie jede Plattform im Jahr kostet</span></span></a>
         <a href="/systeme-io-kostenlos"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-2-4-6-4-6-1.5S9 8 12 8zm0 0c2-4 6-4 6-1.5S15 8 12 8z"/></svg></span><span><b>Systeme.io kostenlos</b><span class="sub">Was der Gratis-Plan wirklich kann</span></span></a>
         <a href="/systeme-io-preise"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></span><span><b>Systeme.io Preise</b><span class="sub">Alle Pläne, Grenzen und Jahrespreise</span></span></a>
         <a href="/skool-preise"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M14.5 14.2c3 .2 5.5 2.6 5.5 5.8"/></svg></span><span><b>Skool Preise</b><span class="sub">Hobby oder Pro und die Gebühren</span></span></a>
         <a href="/systeme-io-vs-kajabi"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 21h10M5 7h14"/><path d="M5 7l-3 7a3.5 3.5 0 0 0 6 0zM19 7l-3 7a3.5 3.5 0 0 0 6 0z"/></svg></span><span><b>Systeme.io oder Kajabi?</b><span class="sub">Günstig starten oder alles aus einer Hand</span></span></a>
-        <a href="/so-pruefen-wir"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg></span><span><b>So prüfen wir</b><span class="sub">Quellen, Prüfdatum, Partnerlinks</span></span></a>
       </div>
     </section>
   </main>
